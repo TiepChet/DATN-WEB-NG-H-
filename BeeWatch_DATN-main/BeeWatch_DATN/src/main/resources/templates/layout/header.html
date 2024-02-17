@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <link
+    href="/assets/user/memenu.css"
+    rel="stylesheet"
+    type="text/css"
+    media="all"
+  />
+  <link rel="icon" href="../../../assets/images/Bee.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../../../assets/fontwesome/css/all.min.css" />
+  <script type="text/javascript" src="/assets/user/memenu.js"></script>
+  <body>
+    <div>
+      <div class="noidung">
+        <div class="header-top">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="slogan-run">
+                  <div class="slogan-content">
+                    <p>Bee Watch | Redefine your style.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="header-left">
+                  <ul class="header-left-list">
+                    <li>
+                      <a
+                        th:href="@{/login}"
+                        th:if="${#request.remoteUser} == null"
+                        >Đăng nhập</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        th:href="@{/register}"
+                        th:if="${#request.remoteUser} == null"
+                        >Đăng ký</a
+                      >
+                    </li>
+                    <li>
+                      <a th:href="@{/beestore/cartItem}">
+                        <div class="total">
+                          <i class="fa-solid fa-cart-shopping"></i>
+                          <div class="cart-count" th:if="${isAccount} == 1">
+                            <span
+                              th:text="${{cartTotal != null ? cartTotal : '0'}}"
+                            ></span>
+                          </div>
+                          <div class="cart-count" th:if="${isAccount} == 0">
+                            <span>{{cart.count}}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li th:if="${#request.remoteUser}">
+                      <a th:href="@{/logout}"
+                        >([[${#request.remoteUser}]])<i
+                          class="fa-solid fa-right-from-bracket"
+                        ></i
+                      ></a>
+                    </li>
+                    <!--	<li th:if="${#request.isUserInRole('ADMIN') || #request.isUserInRole('USER')}">
+									<a th:href="@{/admin}">Admin</a>
+									</li> -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../../../assets/user/slogan.js"></script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index.html}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Chi tiết</title>
+
+    <!-- Custom styles for this template -->
+    <link href="/tryitnow/Styles/jumbotron-narrow.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="/tryitnow/Styles/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/tryitnow/Styles/js/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+
+    <style>
+        body {
+          font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+          text-align: center;
+          color: #777;
+        }
+  
+        body h1 {
+          font-weight: 300;
+          margin-bottom: 0px;
+          padding-bottom: 0px;
+          color: #000;
+        }
+  
+        body h3 {
+          font-weight: 300;
+          margin-top: 10px;
+          margin-bottom: 20px;
+          font-style: italic;
+          color: #555;
+        }
+  
+        body a {
+          color: #06f;
+        }
+  
+        .invoice-box {
+          max-width: 800px;
+          margin: auto;
+          padding: 30px;
+          border: 1px solid #eee;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+          font-size: 16px;
+          line-height: 24px;
+          font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+          color: #555;
+        }
+        .contentL{
+            text-align: right;
+        }
+  
+        .invoice-box table {
+          width: 100%;
+          line-height: inherit;
+          text-align: left;
+          border-collapse: collapse;
+        }
+  
+        .invoice-box table td {
+          padding: 5px;
+          vertical-align: top;
+        }
+  
+        .invoice-box table tr td:nth-child(2) {
+          text-align: right;
+        }
+  
+        .invoice-box table tr.top table td {
+          padding-bottom: 20px;
+        }
+  
+        .invoice-box table tr.top table td.title {
+          font-size: 45px;
+          line-height: 45px;
+          color: #333;
+        }
+  
+        .invoice-box table tr.information table td {
+          padding-bottom: 40px;
+        }
+  
+        .invoice-box table tr.heading td {
+          background: #eee;
+          border-bottom: 1px solid #ddd;
+          font-weight: bold;
+        }
+  
+        .invoice-box table tr.details td {
+          padding-bottom: 20px;
+        }
+  
+        .invoice-box table tr.item td {
+          border-bottom: 1px solid #eee;
+        }
+  
+        .invoice-box table tr.item.last td {
+          border-bottom: none;
+        }
+  
+        .invoice-box table tr.total td:nth-child(2) {
+          border-top: 2px solid #eee;
+          font-weight: bold;
+        }
+  
+        @media only screen and (max-width: 600px) {
+          .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+          }
+  
+          .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+          }
+        }
+      </style>
+</head>
+<body  layout:fragment="content">
+<!-- <div class="container" align="center" style="margin-top: 40px; margin-bottom: 40px;">
+    <div style="background-color: #FFEFD5; height: 400px;width: 400px;">
+        <div style="padding-top:30px;">
+            <h3 style="color: red;">Đặt hàng thành công</h3>
+            <h4>Đơn hàng của bạn đang được xử lý...</h4>
+            <div class="table-responsive">
+
+                <div class="form-group">
+                    <label>Mã đơn hàng: </label>
+                    <h4><span th:text="${order.orderId}"/>{{order.orderId}}</h4>
+
+                </div>
+                <div class="form-group">
+                    <label>Số tiền: </label>
+                    <h4><span th:text="${#numbers.formatDecimal(tienSauGiam, 0, 'COMMA', 0, 'POINT')}"/> VNĐ</h4>
+                </div>
+                <div class="form-group">
+                    <label>Thời gian đặt hàng</label>
+                    <h4><span th:text="${order.createDate}"/></h4>
+                </div>
+                <div class="form-group">
+                    <label >Trạng thái</label> <br>
+                    <span th:if="${order.getTthaiThanhToan} == 0">Thanh toán khi nhận hàng</span>
+
+                    <span th:if="${order.getTthaiThanhToan} == 1">Đã thanh toán</span>
+                    <br>
+                    <div th:if="${isAccount} == 1"><a th:href="@{/beewatch/account/history}">Xem chi tiết</a></div>
+                    <div th:if="${isAccount} == 0"><a th:href="@{'/lich_su_ko_login/' + ${order.orderId}}">Xem chi tiết</a></div>
+                </div>
+            </div>
+
+            <p>
+                <a th:href="@{/beewatch}" style="font-size: 26px; text-decoration: none;">Về trang chủ</a>
+            </p>
+
+            <footer>
+                <p>&copy; beewatch Shop</p>
+            </footer>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+<div class="invoice-box">
+    <table>
+      <tr class="top">
+        <td colspan="3">
+          <table>
+            <tr>
+              <td class="title">
+                <img
+                  src="../static/assets/images/logoBrand-removebg-preview.png"
+                  alt=""
+                  style="width: 100%; max-width: 300px"
+                />
+              </td>
+                <td></td>
+              <td class="contentL">
+                Mã hóa đơn: #<span th:text="${order.orderId}">{{order.orderId}}</span><br />
+                Ngày tạo: <span th:text="${order.createDate}"></span><br />
+<!--                 Due: February 1, 2023 -->
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr class="information">
+        <td colspan="3">
+          <table>
+            <tr>
+              <td>
+                Tên người nhận: <br />
+                Địa chỉ nhận: <br />
+                Email người nhận: <br />
+              </td>
+                <td></td>
+              <td class="contentL">
+                <span th:text="${order.getTenNn()}"></span><br />
+                  <span th:text="${order.getAddress()}"></span><br />
+                <span th:if="${isAccount} == 1" th:text="${order.getAccount().getEmail()}"></span>
+                  <span th:if="${isAccount} == 0" th:text="${email}"></span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr class="heading">
+        <td>Phương thức thanh toán</td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+
+      <tr class="details">
+          <td class="contentR"  th:if="${order.getTthaiThanhToan} == 0"><span>Thanh toán khi nhận hàng</span></td>
+          <td class="contentR" th:if="${order.getTthaiThanhToan} == 1"><span >Đã thanh toán</span></td>
+          <td></td>
+          <td></td>
+      </tr>
+
+      <tr class="heading">
+        <td>Tên sản phẩm</td>
+        <td>Số lượng</td>
+        <td class="contentL">Giá</td>
+      </tr>
+
+      <tr class="item" th:if="${isAccount} == 1" th:each="item : ${cartItems}">
+        <td><a
+            th:href="${'/beestore/product/detail/' + item.getProduct_id()}"
+          >
+            <p th:text="${item.getNameProduct()}"></p>
+          </a></td>
+        <td  th:if="${isAccount} == 1">
+            <span  th:text="${item.getQuantity()}"></span>
+        </td>
+        <td class="contentL"><span class="price" id="MyNumber" th:text="${#numbers.formatDecimal(item.getPrice() * item.getQuantity(), 3, 0)}"
+            >
+                VNĐ
+            </span></td>
+      </tr>
+
+      <tr class="item" th:if="${isAccount} == 0" ng-repeat="item in cart.items">
+        <td><a href="/beestore/product/detail/{{item.productId}}"
+            >{{item.name}}</a
+            ></td>
+          <td th:if="${isAccount} == 0">
+              <span>{{item.qty}}</span>
+          </td>
+        <td class="contentL"><span class="price"
+            >{{item.price * item.qty|number:0}} VNĐ</span
+            ></td>
+      </tr>
+
+
+      <tr class="total">
+        <td></td>
+
+        <td>Tổng tiền: <span th:text="${#numbers.formatDecimal(tienSauGiam, 0, 'COMMA', 0, 'POINT')}">VND</span></td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- /container -->
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        localStorage.clear();
+    })
+</script>
+</body>
+</html>

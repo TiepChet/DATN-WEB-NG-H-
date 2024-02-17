@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/index.html}"
+>
+  <head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+    />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Layout -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="/assets/user/bootstrap.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="/assets/user/jquery.min.js"></script> -->
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link
+      href="/assets/user/style.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="keywords"
+      content="New Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+   Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"
+    />
+    <script type="application/x-javascript">
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <!--fonts-->
+    <link
+      href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--//fonts-->
+    <!-- start menu -->
+    <link
+      href="/assets/user/memenu.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <script type="text/javascript" src="/assets/user/memenu.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".memenu").memenu();
+      });
+    </script>
+    <style type="text/css">
+      .breadcrumb-item a {
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body layout:fragment="content">
+    <!-- menu -->
+    <div class="container">
+      <div class="nav-bre" style="margin-top: 20px">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Lịch sử mua hàng</a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- Page Content -->
+      <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div
+            class="row align-items-center"
+            style="justify-content: space-between"
+          >
+            <div class="col-sm-3">
+              <h3 class="page-title">
+                Lịch sử mua hàng<span id="year"></span>
+              </h3>
+            </div>
+            <div class="col-sm-10 col-md-3 col-lg-4">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control col-sm-10"
+                  placeholder="Search"
+                  name="keyword"
+                  id="keyword"
+                  th:value="${session.keywords}"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Filter -->
+          <!-- /Search Filter -->
+          <br />
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <form action="" id="formId" method="get">
+                  <table class="table table-striped custom-table datatable">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 50px">STT</th>
+                        <th style="min-width: 150px">Mã đơn hàng</th>
+                        <th style="min-width: 150px">Tên khách hàng</th>
+                        <th style="min-width: 100px">Ngày đặt hàng</th>
+                        <th style="min-width: 100px">Tổng tiền</th>
+                        <th style="min-width: 100px">Trạng thái</th>
+                        <th style="min-width: 150px">Chi tiết</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="order, state: ${orders}"
+                          th:data-send-to-customer="${order.sendToCustomer}"
+                          th:data-image="${order.anhLoiSanPham}"
+                          th:data-reason-refund="${order.reason}">
+                        <td>[[${state.index}]]</td>
+                        <td>[[${order.orderId}]]</td>
+                        <td >[[${order.tenNn}]]</td>
+                        <td>[[${order.createDate}]]</td>
+                        <td>
+                          [[${#numbers.formatDecimal(order.total, 0, 'COMMA', 0,
+                          'POINT')}]] VND
+                        </td>
+                        <td>
+                          <!-- <span class="mode mode_on">[[${order.status}]]</span>-->
+                          <span th:if="${order.status} == 1">Chờ duyệt</span>
+                          <span th:if="${order.status} == 2">Đang xử lý</span>
+                          <span th:if="${order.status} == 3">Đang giao</span>
+                          <span
+                            th:if="${order.status} == 4  and ${order.reason} == null"
+                            >Hoàn thành</span
+                          >
+                          <span th:if="${order.status} == 6">Đơn hoàn</span>
+                          <span
+                            th:if="${order.status} == 4 and ${order.reason} != null"
+                            >Không chấp nhận hoàn đơn</span
+                          >
+                          <span th:if="${order.status} == 5"
+                            >Yêu cầu hoàn hàng</span
+                          >
+                          <span th:if="${order.status} == 0">Đã hủy</span> |
+                          <span th:if="${order.getTthaiThanhToan} == 0"
+                            >Thanh toán khi nhận hàng</span
+                          >
+
+                          <span th:if="${order.getTthaiThanhToan} == 1"
+                            >Đã thanh toán</span
+                          >
+                          <span th:if="${order.getTthaiThanhToan} == 2"
+                            >Đã hoàn tiền</span
+                          >
+                          <span
+                                  th:if="${order.status == 5 or order.status == 6 }"
+                          >|</span
+                          >
+                          <span
+                                  th:if="${order.status == 5 or order.status == 6}"
+                          >
+                            <a href="#" class="view-hoandon"> Xem thêm</a>
+                          </span>
+                          <span
+                                  th:if="${order.status == 4 and order.reason != null }"
+                          >|</span
+                          >
+                          <span
+                                  th:if="${order.status == 4 and order.reason != null}"
+                          >
+                            <a href="#" class="view-more"> Xem lý do</a>
+                          </span>
+                        </td>
+                        <td>
+                          <div class="btn-group">
+                            <a
+                              th:href="@{|/beestore/account/history/detail/${order.orderId}|}"
+                            >
+                              <button
+                                type="button"
+                                class="btn btn-primary"
+                                th:href="@{|/beestore/account/history/cancel/${order.orderId}|}"
+                              >
+                                Chi tiết
+                              </button>
+                            </a>
+                          </div>
+                          <div class="btn-group">
+                            <input
+                              class="btn btn-danger"
+                              type="button"
+                              th:onshow="${order.status == 1 or order.status == 2}"
+                              th:disabled="${order.status == 3 or order.status == 4 or order.status == 5 or order.status == 6 or order.status ==0}"
+                              th:onclick="'onSummit1('+${order.orderId}+')'"
+                              value="Huỷ đơn"
+                            />
+                          </div>
+                          <!-- <div class="btn-group">
+                            <input
+                              class="btn btn-danger"
+                              type="button"
+                              th:disabled="${order.status} !=4"
+                              th:onclick="'onSummit2('+${order.orderId}+')'"
+                              value="Hoàn đơn"
+                            />
+                          </div> -->
+                          <div class="btn-group">
+                            <input
+                              class="btn btn-danger"
+                              type="button"
+                              th:disabled="${order.status != 4 or order.reason != null}"
+                              th:onclick="'showRefundModal(' + ${order.orderId} + ')'"
+                              value="Hoàn đơn"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <ul class="pagination text-center" style="margin-left: 35%">
+              <li class="page-item">
+                <a class="page-link" href="/beestore/account/history?p=0"
+                  >|<
+                </a>
+              </li>
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  th:href="@{|/beestore/account/history?p=${number-1}|}"
+                  ><<</a
+                >
+              </li>
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  th:href="@{|/beestore/account/history?p=${number}|}"
+                >
+                  [[${number+1}]]/[[${orders.totalPages}]]
+                </a>
+              </li>
+
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  th:href="@{|/beestore/account/history?p=${number+1}|}"
+                  >>></a
+                >
+              </li>
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  th:href="@{|/beestore/account/history?p=${orders.totalPages-1}|}"
+                  >>|</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="refundModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Nhập lý do hoàn đơn và đính kèm ảnh</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <label for="refundReason">Lý do hoàn đơn:</label>
+            <input
+              type="text"
+              id="refundReason"
+              class="form-control"
+              required
+            />
+
+            <label for="refundFile">Tải lên ảnh:</label>
+            <input
+              type="file"
+              id="refundFile"
+              class="form-control"
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="submitRefundForm()"
+            >
+              Xác nhận
+            </button>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Thông tin đơn hoàn trả</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body" id="modal-body">
+            <!-- Nội dung của modal sẽ được thêm vào đây bằng JavaScript -->
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:inline="javascript">
+      function showRefundModal(orderId) {
+        // Mở modal
+        $("#refundModal").modal("show");
+        // Lưu orderId vào thuộc tính data-order-id của modal để sử dụng sau này
+        $("#refundModal").data("order-id", orderId);
+      }
+      function submitRefundForm() {
+        var orderId = $("#refundModal").data("order-id");
+        var reason = $("#refundReason").val();
+        var anh_san_pham_loi = $("#refundFile").val().split("\\").pop();
+
+        if (!reason) {
+          alert("Vui lòng nhập lý do hoàn đơn hàng.");
+          return;
+        } else if (!anh_san_pham_loi) {
+          alert("Vui lòng tải lên ảnh.");
+          return;
+        }
+        // alert("Id dơn hàng:" + orderId + "lý do:" + reason + "ảnh:" + file);
+        var formData = new FormData();
+        formData.append("orderId", orderId);
+        formData.append("reason", reason);
+        formData.append("anh_san_pham_loi", anh_san_pham_loi);
+
+        $.ajax({
+          url: "/beestore/account/history/refundOrder/" + orderId,
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            // Xử lý kết quả thành công
+            alert("Đã gửi yêu cầu hoàn đơn!");
+            $("#refundModal").modal("hide");
+            location.reload();
+          },
+          error: function (error) {
+            console.error("Lỗi khi hoàn đơn:", error);
+            alert("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+          },
+        });
+      }
+    </script>
+    <script type="text/javascript">
+      function onSummit1(obj) {
+        var t = confirm("Bạn muốn hủy đơn hàng? mã đơn hàng:  " + obj);
+        if (t == false) {
+          return false;
+        } else {
+          url = "/beestore/account/history/cancel/" + obj;
+          document.getElementById("formId").action = url;
+          document.getElementById("formId").method = "GET";
+          document.getElementById("formId").submit();
+        }
+      }
+      function onSummit2(obj) {
+        var reason = prompt("Nhập vào lý do hoàn đơn hàng này của bạn:");
+        if (reason == null) {
+          alert("Bạn đã hủy thao tác.");
+          return false;
+        } else {
+          url =
+            "/beestore/account/history/refund/" +
+            obj +
+            "/" +
+            encodeURIComponent(reason);
+          document.getElementById("formId").action = url;
+          document.getElementById("formId").method = "GET";
+          document.getElementById("formId").submit();
+          setTimeout(function () {
+            // Chuyển hướng đến URL mong muốn
+            window.location.replace(
+              "http://localhost:8080/beestore/account/history"
+            );
+          }, 50);
+        }
+      }
+      // }
+
+      /* <![CDATA[ */
+
+      /* ]]> */
+    </script>
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        // Sự kiện click trên nút "Xem thêm"
+        $("a.view-hoandon").on("click", function (event) {
+          event.preventDefault();
+          // Lấy dữ liệu trường sendToCustomer của order
+          var sendToCustomerData = $(this)
+                  .closest("tr")
+                  .data("send-to-customer");
+          // Lấy dữ liệu trường ảnh của order
+          var imageData = $(this).closest("tr").data("image");
+          var reasonData = $(this).closest("tr").data("reason-refund");
+
+          // Tạo thẻ <img> từ đường dẫn ảnh
+          var imageTag =
+                  '<img src="' +
+                  "../../../static/assets/images/" +
+                  imageData +
+                  '" alt="Order Image" style="max-width: 50%;">';
+
+          var styledText =
+                  '<span style="color: red;">' + sendToCustomerData + "</span>";
+
+          var titleee =
+                  '<span style="color: black; font-weight: bold;">' +
+                  "Lý do hoàn đơn: " +
+                  "</span>";
+
+          var titleeeSystem =
+                  '<span style="color: black; font-weight: bold;">' +
+                  "Lý do không chấp nhận: " +
+                  "</span>";
+          // Hiển thị dữ liệu và ảnh trong modal
+          $("#modal-body").html(
+                  titleee + reasonData + "<br>" + "<br>" + imageTag + "<br>"
+          );
+
+          // Hiển thị modal
+          $("#myModal").modal("show");
+        });
+      });
+      /*<![CDATA[*/
+      $(document).ready(function () {
+        // Sự kiện click trên nút "Xem thêm"
+        $("a.view-more").on("click", function (event) {
+          event.preventDefault();
+          // Lấy dữ liệu trường sendToCustomer của order
+          var sendToCustomerData = $(this)
+                  .closest("tr")
+                  .data("send-to-customer");
+          // Lấy dữ liệu trường ảnh của order
+          var imageData = $(this).closest("tr").data("image");
+          var reasonData = $(this).closest("tr").data("reason-refund");
+
+          // Tạo thẻ <img> từ đường dẫn ảnh
+          var imageTag =
+                  '<img src="' +
+                  "../../../static/assets/images/" +
+                  imageData +
+                  '" alt="Order Image" style="max-width: 50%;">';
+
+          var styledText =
+                  '<span style="color: red;">' + sendToCustomerData + "</span>";
+
+          var titleee =
+                  '<span style="color: black; font-weight: bold;">' +
+                  "Lý do hoàn đơn: " +
+                  "</span>";
+
+          var titleeeSystem =
+                  '<span style="color: black; font-weight: bold;">' +
+                  "Lý do không chấp nhận: " +
+                  "</span>";
+          // Hiển thị dữ liệu và ảnh trong modal
+          $("#modal-body").html(
+                  titleee +
+                  reasonData +
+                  "<br>" +
+                  "<br>" +
+                  imageTag +
+                  "<br>" +
+                  "<br>" +
+                  titleeeSystem +
+                  styledText
+          );
+
+          // Hiển thị modal
+          $("#myModal").modal("show");
+        });
+      });
+      /*]]>*/
+    </script>
+  </body>
+</html>
